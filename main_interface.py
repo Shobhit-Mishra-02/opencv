@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from PIL import ImageTk, Image
 import os
+from Image import image_window
 
 class main_interface:
     def __init__(self, width, height):
@@ -19,11 +20,17 @@ class main_interface:
         self.status_var=StringVar()
         self.status_var.set('Select the image and goahead.....')
 
+        filename=None
+
         def start():
-            pass
+            global filename
+
+            x=image_window.ImageInterface(filename)
+            x.show()
         
         def selection_image():
-            print(root.geometry())
+            # print(root.geometry())
+            global filename
             filename = filedialog.askopenfilename()
             # print(filename)
             img = Image.open(filename)
@@ -35,6 +42,8 @@ class main_interface:
             panel.grid(row=0, column=0)
 
             self.status_var.set(f"(original) Image Name: {os.path.basename(filename)}")
+
+            start_button['state']='!disabled'
 
 
 
