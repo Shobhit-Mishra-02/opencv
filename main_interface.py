@@ -14,7 +14,7 @@ class main_interface:
 
     def win_development(self):
         root = Tk()
-        root.geometry(f"{self.width}x{self.height}")
+        root.geometry(f"{self.width}x{self.height}+0+0")
         root.title("COLOR CHANGER")
         
         self.status_var=StringVar()
@@ -22,11 +22,7 @@ class main_interface:
 
         filename=None
 
-        def start():
-            global filename
 
-            x=image_window.ImageInterface(filename)
-            x.show()
         
         def selection_image():
             # print(root.geometry())
@@ -43,8 +39,22 @@ class main_interface:
 
             self.status_var.set(f"(original) Image Name: {os.path.basename(filename)}")
 
-            start_button['state']='!disabled'
+            # start_button['state']='!disabled'
 
+        def blue():
+            global filename
+            x=image_window.ImageInterface(filename)
+            x.show_blue()
+
+        def green():
+            global filename
+            x=image_window.ImageInterface(filename)
+            x.show_green()
+
+        def red():
+            global filename
+            x=image_window.ImageInterface(filename)
+            x.show_red()
 
 
         f1=Frame(root)
@@ -55,9 +65,9 @@ class main_interface:
         control_frame.pack(fill=X)
 
         # buttons in controll frame
-        start_button = ttk.Button(control_frame, text="START", command=start)
-        start_button.grid(row=0, column=0)
-        start_button['state'] = 'disabled'
+        # start_button = ttk.Button(control_frame, text="START", command=start)
+        # start_button.grid(row=0, column=0)
+        # start_button['state'] = 'disabled'
         selection_button = ttk.Button(control_frame, text="Select image", command=selection_image)
         selection_button.grid(row=0, column=1)
         
@@ -65,19 +75,17 @@ class main_interface:
         f2 = Frame(root)
         f2.pack(side=TOP, fill=X)
 
+        lb_color=ttk.LabelFrame(f2, text="Select the color shade")
+        lb_color.pack(side=TOP, fill=X)
 
-        # labels and scals for the colors 
-        Label(f2, text='Change the shade of red').pack(anchor='w')
-        red = ttk.Scale(f2, from_=0, to=255, orient=HORIZONTAL)
-        red.pack(fill=X)
+        Button_blue = ttk.Button(lb_color, text="Blue", command=blue)
+        Button_blue.grid(row=0, column=0)
         
-        Label(f2, text='Change the shade of blue').pack(anchor='w')
-        blue = ttk.Scale(f2, from_=0, to=255, orient=HORIZONTAL)
-        blue.pack(fill=X)
-        
-        Label(f2, text='Change the shade of green').pack(anchor='w')
-        green = ttk.Scale(f2, from_=0, to=255, orient=HORIZONTAL)
-        green.pack(fill=X)
+        Button_red = ttk.Button(lb_color, text="Red", command=red)
+        Button_red.grid(row=0, column=1)
+
+        Button_green = ttk.Button(lb_color, text="Green", command=green)
+        Button_green.grid(row=0, column=2)
 
         f3=Frame(root)
         f3.pack(side= TOP, fill=X)
