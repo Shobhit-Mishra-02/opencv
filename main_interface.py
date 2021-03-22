@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox as msg
 from PIL import ImageTk, Image
 import os
 from Image import image_window
@@ -39,23 +40,36 @@ class main_interface:
 
             self.status_var.set(f"(original) Image Name: {os.path.basename(filename)}")
 
+            Button_blue['state']='!disabled'
+            Button_red['state']='!disabled'
+            Button_green['state']='!disabled'
+
             # start_button['state']='!disabled'
+        
+
 
         def blue():
             global filename
+
             x=image_window.ImageInterface(filename)
             x.show_blue()
 
+
         def green():
             global filename
+            
             x=image_window.ImageInterface(filename)
             x.show_green()
 
         def red():
             global filename
+            
             x=image_window.ImageInterface(filename)
             x.show_red()
 
+        def dir_selector():
+            location = filedialog.askdirectory()
+            print(location)
 
         f1=Frame(root)
         f1.pack(side=TOP, fill=X)
@@ -64,12 +78,12 @@ class main_interface:
         control_frame=ttk.LabelFrame(f1, text="Control panel")
         control_frame.pack(fill=X)
 
-        # buttons in controll frame
-        # start_button = ttk.Button(control_frame, text="START", command=start)
-        # start_button.grid(row=0, column=0)
-        # start_button['state'] = 'disabled'
+        
         selection_button = ttk.Button(control_frame, text="Select image", command=selection_image)
-        selection_button.grid(row=0, column=1)
+        selection_button.grid(row=0, column=0)
+
+        # dir_button = ttk.Button(control_frame, text="Select the location to save the file.", command = dir_selector)
+        # dir_button.grid(row=0, column=1)
         
         # separate frame for the color changers 
         f2 = Frame(root)
@@ -80,12 +94,15 @@ class main_interface:
 
         Button_blue = ttk.Button(lb_color, text="Blue", command=blue)
         Button_blue.grid(row=0, column=0)
+        Button_blue['state']='disabled'
         
         Button_red = ttk.Button(lb_color, text="Red", command=red)
         Button_red.grid(row=0, column=1)
+        Button_red['state']='disabled'
 
         Button_green = ttk.Button(lb_color, text="Green", command=green)
         Button_green.grid(row=0, column=2)
+        Button_green['state']='disabled'
 
         f3=Frame(root)
         f3.pack(side= TOP, fill=X)
@@ -101,5 +118,5 @@ class main_interface:
         root.mainloop()
 
 if __name__=="__main__":
-    x=main_interface(555,656)
+    x=main_interface(555,559)
     x.win_development()

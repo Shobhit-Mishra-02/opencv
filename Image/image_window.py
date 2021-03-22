@@ -1,5 +1,7 @@
 import cv2 as cv
 import numpy as np
+from tkinter import *
+from tkinter import filedialog
 
 
 class ImageInterface:
@@ -28,11 +30,14 @@ class ImageInterface:
             cv.imshow('frame', img_resize)
             b = cv.getTrackbarPos('Blue', 'frame')
 
-            img_resize[:, :, 0] = b
-            
-            if cv.waitKey(1) == ord('q'):
+            img_resize[:,:,0] = b
+    
+            if cv.waitKey(1) & 0xFF == 27:
                break
+            
+
         cv.destroyAllWindows()
+       
 
     def show_red(self):
         # In the img variable we have loaded the image
@@ -59,7 +64,7 @@ class ImageInterface:
             
             img_resize[:,:,2]=r
 
-            if cv.waitKey(1) == ord('q'):
+            if cv.waitKey(1) & 0xFF == 27:
                 
                 break
         cv.destroyAllWindows()
@@ -80,6 +85,7 @@ class ImageInterface:
         # putting the trackbars on the frame
         cv.createTrackbar('Green', 'frame', 0, 255, func)
         
+        
 
         # This will show the image
         while True:
@@ -90,10 +96,10 @@ class ImageInterface:
            
             img_resize[:,:,1]=g
            
-            if cv.waitKey(1) == ord('q'):
+            if cv.waitKey(1) & 0xFF == 27:
                 break
         cv.destroyAllWindows()
 
 if __name__ == "__main__":
     x = ImageInterface('image.jpg')
-    x.show_red()
+    x.show_blue()
