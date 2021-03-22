@@ -11,6 +11,8 @@ class main_interface:
         self.width=width
         self.height = height
         self.status_var=None
+        self.location = None
+        self.var_location = None
         # self.filename=None
 
     def win_development(self):
@@ -22,7 +24,8 @@ class main_interface:
         self.status_var.set('Select the image and goahead.....')
 
         filename=None
-
+        self.var_location = StringVar()
+        self.var_location.set("No selected location")
 
         
         def selection_image():
@@ -68,8 +71,10 @@ class main_interface:
             x.show_red()
 
         def dir_selector():
-            location = filedialog.askdirectory()
-            print(location)
+            # global var_location
+            self.location = filedialog.askdirectory()
+            self.var_location.set(self.location)
+            
 
         f1=Frame(root)
         f1.pack(side=TOP, fill=X)
@@ -82,9 +87,11 @@ class main_interface:
         selection_button = ttk.Button(control_frame, text="Select image", command=selection_image)
         selection_button.grid(row=0, column=0)
 
-        # dir_button = ttk.Button(control_frame, text="Select the location to save the file.", command = dir_selector)
-        # dir_button.grid(row=0, column=1)
+        dir_button = ttk.Button(control_frame, text="Select the location to save the file.", command = dir_selector)
+        dir_button.grid(row=0, column=1)
         
+        Label(control_frame, textvariable=self.var_location).grid(row=0,column=2, padx=10)
+
         # separate frame for the color changers 
         f2 = Frame(root)
         f2.pack(side=TOP, fill=X)
