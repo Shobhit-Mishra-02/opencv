@@ -12,6 +12,38 @@ class image_convertor:
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
         self.result = img
+        return self.result
+
+    def color_to_red(self):
+        img = cv.imread(self.filename)
+        img = cv.resize(img, (500,500))
+        # img_resize[:,:,2]=r
+        img[:,:,2] = 115
+
+        self.result = img
+
+        return self.result
+
+    def color_to_blue(self):
+        img = cv.imread(self.filename)
+        img = cv.resize(img, (500,500))
+
+        img[:,:,0] = 115
+
+        self.result = img
+
+        return self.result
+    
+    def color_to_green(self):
+        img = cv.imread(self.filename)
+        img = cv.resize(img, (500,500))
+
+        img[:,:,1] = 115
+
+        self.result = img
+
+        return self.result
+
         
 
     def show(self):
