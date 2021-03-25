@@ -17,7 +17,6 @@ class image_convertor:
     def color_to_red(self):
         img = cv.imread(self.filename)
         img = cv.resize(img, (500,500))
-        # img_resize[:,:,2]=r
         img[:,:,2] = 115
 
         self.result = img
@@ -50,8 +49,9 @@ class image_convertor:
         cv.imshow('frame', self.result)
         cv.waitKey(0)
     
-    def save_image(self):
-        cv.imwrite('image_1.png', self.result)
+    def save_image(self, image, location):
+        cv.imwrite(f"{location}.png", image)
+        
 
 if __name__=="__main__":
     x=image_convertor('image_1.jpg')
