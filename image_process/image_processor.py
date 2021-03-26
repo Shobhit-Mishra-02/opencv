@@ -50,7 +50,7 @@ class image_convertor:
         cv.waitKey(0)
     
     def save_image(self, image, location):
-        cv.imwrite(f"{location}.png", image)
+        cv.imwrite(f"{location}", image)
         
 
 if __name__=="__main__":

@@ -104,18 +104,26 @@ class interface:
                     save_filename = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[(
                         "jpg Image", "*.jpg"), ("png Image", "*.png"), ("jpeg Image", "*.jpeg")])
                     convertor.save_image(self.img_slot, save_filename)
+        
+        gray_button = None
+        red_button = None
+        blue_button = None
+        green_button = None
 
+        lt_button = [gray_button, red_button, blue_button, green_button]
+        lt_txt = ['Gray shade', 'Red shade', 'Blue shade', 'Green shade']
+        
         def open_file():
             # This function will open the directory
+           
 
             self.file_name = filedialog.askopenfilename(defaultextension=".jpg", filetypes=[("jpg Image", "*.jpg"),
                                                                                             ("png Image", "*.png"), ("jpeg Image", "*.jpeg")])
             print(self.file_name)
 
-            gray_button['state'] = 'normal'
-            green_button['state'] = 'normal'
-            red_button['state'] = 'normal'
-            blue_button['state'] = 'normal'
+
+            for i in range(4):
+                lt_button[i]['state']='normal'
 
             self.status_var.set(
                 f"Image name : {os.path.basename(self.file_name)}")
@@ -130,8 +138,7 @@ class interface:
             selected_img.image = photo
             selected_img.grid(row=0, column=0)
 
-            # for i in range(len(self.button_lt)):
-            #     self.button_lt[i]['state'] = '!disable'
+            
 
         # Creating frame, Labeledframe and inserting a button(file_button)
         f1 = Frame(root)
@@ -150,28 +157,14 @@ class interface:
         controls = ttk.LabelFrame(f2, text="Select the shade")
         controls.pack(side=TOP, fill=X, pady=10)
 
-        gray_button = Button(controls, text='Gray shade')
-        gray_button['state'] = 'disabled'
-        gray_button.grid(row=0, column=0)
-
-        red_button = Button(controls, text='Red shade')
-        red_button['state'] = 'disabled'
-        red_button.grid(row=0, column=1)
-
-        blue_button = Button(controls, text='Blue shade')
-        blue_button['state'] = 'disabled'
-        blue_button.grid(row=0, column=2)
-
-        green_button = Button(controls, text='Green shade')
-        green_button['state'] = 'disabled'
-        green_button.grid(row=0, column=3)
-
-        gray_button.bind('<Button-1>', button_pressed)
-        red_button.bind('<Button-1>', button_pressed)
-        blue_button.bind('<Button-1>', button_pressed)
-        green_button.bind('<Button-1>', button_pressed)
-
         root.bind("<Control-s>", button_pressed)
+
+
+        for i in range(len(lt_button)):
+            lt_button[i] = Button(controls, text=lt_txt[i])
+            lt_button[i].grid(row=0, column=i)
+            lt_button[i]['state']='disabled'
+            lt_button[i].bind('<Button-1>', button_pressed)
 
         # An empty frame where our selected and processed images will appear
         f3 = Frame(root)
