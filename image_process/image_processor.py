@@ -42,6 +42,16 @@ class image_convertor:
         self.result = img
 
         return self.result
+    
+    def color_to_black(self):
+        img = cv.imread(self.filename)
+        img = cv.resize(img, (500,500))
+
+        edges = cv.Canny(img, 100,200)
+
+        self.result = edges
+
+        return self.result
 
         
 

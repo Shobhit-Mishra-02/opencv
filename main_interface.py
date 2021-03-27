@@ -98,7 +98,20 @@ class interface:
                 lb.image = image
                 lb.grid(row=0, column=1)
                 pro_status = True
+            
+            elif button == 'Black shade':
+                img = convertor.color_to_black()
+                self.img_slot = img
+                img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 
+                img = Image.fromarray(img)
+
+                lb = Label(f3)
+                image = ImageTk.PhotoImage(img)
+                lb['image'] = image
+                lb.image = image
+                lb.grid(row=0, column=1)
+                pro_status = True
             else:
                 if pro_status == True:
                     save_filename = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[(
@@ -109,9 +122,10 @@ class interface:
         red_button = None
         blue_button = None
         green_button = None
+        black_button = None
 
-        lt_button = [gray_button, red_button, blue_button, green_button]
-        lt_txt = ['Gray shade', 'Red shade', 'Blue shade', 'Green shade']
+        lt_button = [gray_button, red_button, blue_button, green_button, black_button]
+        lt_txt = ['Gray shade', 'Red shade', 'Blue shade', 'Green shade', 'Black shade']
         
         def open_file():
             # This function will open the directory
@@ -122,7 +136,7 @@ class interface:
             print(self.file_name)
 
 
-            for i in range(4):
+            for i in range(5):
                 lt_button[i]['state']='normal'
 
             self.status_var.set(
