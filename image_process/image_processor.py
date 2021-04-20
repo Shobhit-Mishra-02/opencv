@@ -169,17 +169,10 @@ class adv_coloring:
         if self.color2 == 'green':
             self.img[:,:,1] = self.color_rate2
         
-        # if self.blue != None:
-        #     self.img[:,:,0] = self.blue
-            
-        
-        # if self.green != None:
-        #     self.img[:,:,1] = self.green
         
         self.img = cv.cvtColor(self.img, cv.COLOR_BGR2RGB)
         return self.img
-        # cv.imshow('output', self.img)
-        # cv.waitKey(0)
+        
 
 if __name__=="__main__":
     x = adv_coloring(filename='image_1.jpg', color1='red', color2='green', color_rate1=100, color_rate2=30)
