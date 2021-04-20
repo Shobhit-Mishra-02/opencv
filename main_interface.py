@@ -15,7 +15,7 @@ root.config(menu=menubar)
 filename = None
 slot_image = None
 processed_image = None
-processed_image_in = False
+
 contrast_rate = IntVar()
 merge_img1 = None
 merge_img2 = None
@@ -25,6 +25,12 @@ var_height = IntVar()
 
 var_height.set(500)
 var_width.set(500)
+
+combo_color1 = StringVar()
+combo_color2 = StringVar()
+
+color_rate1 = IntVar()
+color_rate2 = IntVar()
 
 # function of the submenues
 
@@ -157,18 +163,19 @@ def button_pressed(e):
             output_image_inserter(img)
 
     elif e.widget.cget('text') == 'Apply color':
-        pass
+        rbg = image_processor.adv_coloring(filename, color1=combo_color1.get(), color2=combo_color2.get(), color_rate1=color_rate1.get(), color_rate2=color_rate2.get())
+        img = rbg.color_action()
+        processed_image = img
+        output_image_inserter(img)
 
     elif e.widget.cget('text') == 'Apply merging':
         if merge_img1 != None and merge_img2 != None:
             merge = image_processor.Merging_images(merge_img1, merge_img2)
-            img = merge.merging_action(
-                percentage_dominance=merge_percentage.get())
+            img = merge.merging_action(percentage_dominance=merge_percentage.get())
             processed_image = img
             output_image_inserter(img)
         else:
-            msg.showerror(
-                'Error', 'First select both the images and then press the Apply merging button')
+            msg.showerror('Error', 'First select both the images and then press the Apply merging button')
 
     elif e.widget.cget('text') == 'Apply changes':
         print(var_width.get())
@@ -208,9 +215,9 @@ def rbg():
         first_color['state'] = 'normal'
         second_color['state'] = 'normal'
         button_color['state'] = 'normal'
-        color1_scale['state'] = 'normal'
-        color2_scale['state'] = 'normal'
-        button_rbg['state'] = 'normal'
+        # color1_scale['state'] = 'normal'
+        # color2_scale['state'] = 'normal'
+        # button_rbg['state'] = 'normal'
     else:
         msg.showerror(
             'Error', 'First select the image from the openfile option from the file submenu.')
@@ -299,7 +306,14 @@ def merge_event(e):
 
 
 def submit_adv_color():
-    pass
+    if combo_color1.get() != combo_color2.get():
+        color1_scale['state'] = 'normal'
+        color1_scale['label'] = f'First color: {combo_color1.get()}'
+        color2_scale['state'] = 'normal'
+        color2_scale['label'] = f'Second color: {combo_color2.get()}'
+        button_rbg['state'] = 'normal'
+    else:
+        msg.showerror("Error",'You have to select two different colors.')
 
 
 def about():
@@ -406,27 +420,27 @@ dominance_scale['state'] = 'disabled'
 
 
 # placing two combobox and two scales in the rbg frame and buttons also
-first_color = ttk.Combobox(control_rbg, values=['red', 'blue', 'green'])
+first_color = ttk.Combobox(control_rbg, values=['red', 'blue', 'green'], textvariable = combo_color1)
 first_color.grid(row=0, column=0, padx=10, pady=10)
 
-second_color = ttk.Combobox(control_rbg, values=['red', 'blue', 'green'])
+second_color = ttk.Combobox(control_rbg, values=['red', 'blue', 'green'], textvariable = combo_color2)
 second_color.grid(row=0, column=1, pady=10)
 
 button_color = ttk.Button(control_rbg, text='Submit', command=submit_adv_color)
 button_color.grid(row=0, column=2, padx=40, pady=10)
 
-Label(control_rbg, text='First color:', state='disabled').grid(
-    row=1, column=0, sticky=['w'])
+# Label(control_rbg, text='First color:', state='disabled').grid(
+#     row=1, column=0, sticky=['w'])
 
-color1_scale = Scale(control_rbg, from_=0, to=255, tickinterval=50,
-                     orient=HORIZONTAL, length=500)
+color1_scale = Scale(control_rbg, from_=0, to=255, tickinterval=50,label = 'First color:',
+                     orient=HORIZONTAL, length=500,variable = color_rate1)
 color1_scale.grid(row=2, column=0, columnspan=3)
 
-Label(control_rbg, text='Second color:', state='disabled').grid(
-    row=3, column=0, sticky=['w'])
+# Label(control_rbg, text='Second color:', state='disabled').grid(
+#     row=3, column=0, sticky=['w'])
 
-color2_scale = Scale(control_rbg, from_=0, to=255, tickinterval=50,
-                     orient=HORIZONTAL, length=500)
+color2_scale = Scale(control_rbg, from_=0, to=255, tickinterval=50,label ='Second color:',
+                     orient=HORIZONTAL, length=500 ,variable = color_rate2)
 color2_scale.grid(row=4, column=0, columnspan=3)
 
 button_rbg = ttk.Button(control_rbg, text='Apply color')

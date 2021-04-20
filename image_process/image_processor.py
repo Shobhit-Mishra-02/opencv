@@ -107,9 +107,6 @@ class changing_brightness:
         final = cv.cvtColor(limg, cv.COLOR_LAB2BGR)
         final = cv.resize(final,(500,500))
         
-        # cv.imshow('final', final)
-        # cv.waitKey(0)
-        
         return final
 
 class save_file:
@@ -141,8 +138,50 @@ class Merging_images:
         # cv.imshow('output', output)
         # cv.waitKey(0)
         return output
-    
+
+class adv_coloring:
+    def __init__(self,filename, color1, color2, color_rate1, color_rate2):
+        self.filename = filename
+        self.color1 = color1
+        self.color2 = color2
+
+        self.color_rate1 = color_rate1 
+        self.color_rate2 = color_rate2 
+
+        self.result = None
+        
+        self.img = cv.imread(self.filename)
+        self.img = cv.resize(self.img, (457, 569))
+
+    def color_action(self):
+        
+        if self.color1 == 'red':
+            self.img[:,:,2] = self.color_rate1
+        if self.color1 == 'blue':
+            self.img[:,:,0] = self.color_rate1
+        if self.color1 == 'green':
+            self.img[:,:,1] = self.color_rate1
+              
+        if self.color2 == 'red':
+            self.img[:,:,2] = self.color_rate2
+        if self.color2 == 'blue':
+            self.img[:,:,0] = self.color_rate2
+        if self.color2 == 'green':
+            self.img[:,:,1] = self.color_rate2
+        
+        # if self.blue != None:
+        #     self.img[:,:,0] = self.blue
+            
+        
+        # if self.green != None:
+        #     self.img[:,:,1] = self.green
+        
+        self.img = cv.cvtColor(self.img, cv.COLOR_BGR2RGB)
+        return self.img
+        # cv.imshow('output', self.img)
+        # cv.waitKey(0)
+
 if __name__=="__main__":
-    x=Merging_images(first_image='image_1.jpg', second_image='image.jpg')
-    x.merging_action(80)
+    x = adv_coloring(filename='image_1.jpg', color1='red', color2='green', color_rate1=100, color_rate2=30)
+    x.color_action()
     
