@@ -20,8 +20,15 @@ contrast_rate = IntVar()
 merge_img1 = None
 merge_img2 = None
 merge_percentage = IntVar()
+var_width = IntVar()
+var_height = IntVar()
+
+var_height.set(500)
+var_width.set(500)
 
 # function of the submenues
+
+
 def func_for_submenu(menubar, menu_lb, menu_command, nameofsubmenu):
     m = Menu(menubar, tearoff=0)
     for i in range(len(menu_lb)):
@@ -29,6 +36,8 @@ def func_for_submenu(menubar, menu_lb, menu_command, nameofsubmenu):
     menubar.add_cascade(label=nameofsubmenu, menu=m)
 
 # This will add the processed image in the image slot
+
+
 def output_image_inserter(img):
     img = Image.fromarray(img)
 
@@ -41,35 +50,39 @@ def output_image_inserter(img):
 def openfile():
     global filename
     filename = filedialog.askopenfilename()
-    
+
     img = Image.open(filename)
     img = img.resize((457, 569), Image.ANTIALIAS)
 
     photo = ImageTk.PhotoImage(img)
 
-    slot_image['width']=0
-    slot_image['height']=0
+    slot_image['width'] = 0
+    slot_image['height'] = 0
     slot_image['image'] = photo
     slot_image.image = photo
-    slot_image.grid(row=1, column=0, rowspan = 4)
+    slot_image.grid(row=1, column=0, rowspan=4)
 
     for i in lt_button:
-        i['state']='normal'
+        i['state'] = 'normal'
+
 
 def savefile():
-    pass
+    location = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[(
+        "jpg Image", "*.jpg"), ("png Image", "*.png"), ("jpeg Image", "*.jpeg")])
+    file_saver = image_processor.save_file(
+        image=processed_image, location=location, width=var_width.get(), height=var_height.get())
+    file_saver.save_image()
 
 
 def Exit():
     root.destroy()
 
 
-
 def contrast():
     global filename
 
     if filename != None:
-        
+
         if control_merging.instate(['disabled']) == False:
             control_merging.state(['disabled'])
             button_img1['state'] = 'disabled'
@@ -85,7 +98,7 @@ def contrast():
             color1_scale['state'] = 'disabled'
             color2_scale['state'] = 'disabled'
             button_rbg['state'] = 'disabled'
-        
+
         if control_size.instate(['disabled']) == False:
             control_size.state(['disabled'])
             image_height['state'] = 'disabled'
@@ -93,84 +106,95 @@ def contrast():
             size_apply['state'] = 'disabled'
 
         for i in lt_button:
-            i['state']='disabled'
+            i['state'] = 'disabled'
         control_contrast.state(['!disabled'])
         contrast_scale['state'] = 'normal'
         button_contrast['state'] = 'normal'
     else:
-        msg.showerror('Error','First select the image from the openfile option from the file submenu.')
+        msg.showerror(
+            'Error', 'First select the image from the openfile option from the file submenu.')
 
 
 def button_pressed(e):
     global filename, processed_image, processed_image_in, merge_img1, merge_img2
     pro = image_processor.image_convertor(filename)
-    
+
     if e.widget.cget('text') == 'Gray shade':
         img = pro.color_to_gray()
         processed_image = img
         output_image_inserter(img)
         processed_image_in = True
-    
+
     elif e.widget.cget('text') == 'Red shade':
         img = pro.color_to_red()
         processed_image = img
         output_image_inserter(img)
         processed_image_in = True
-    
+
     elif e.widget.cget('text') == 'Blue shade':
         img = pro.color_to_blue()
         processed_image = img
         output_image_inserter(img)
         processed_image_in = True
-    
+
     elif e.widget.cget('text') == 'Green shade':
         img = pro.color_to_green()
         processed_image = img
         output_image_inserter(img)
         processed_image_in = True
-    
+
     elif e.widget.cget('text') == 'Apply contrast':
         contrast_converter = image_processor.change_contrast()
         if type(processed_image) == np.ndarray:
-            img = contrast_converter.loaded_image_contrast(percentage_of_contrast=contrast_rate.get(), loaded_image=processed_image)
+            img = contrast_converter.loaded_image_contrast(
+                percentage_of_contrast=contrast_rate.get(), loaded_image=processed_image)
             processed_image = img
             output_image_inserter(img)
         else:
-            img = contrast_converter.image_contrast(percentage_of_contrast = contrast_rate.get(), image_location=filename)
+            img = contrast_converter.image_contrast(
+                percentage_of_contrast=contrast_rate.get(), image_location=filename)
             processed_image = img
             output_image_inserter(img)
-        
+
     elif e.widget.cget('text') == 'Apply color':
         pass
+
     elif e.widget.cget('text') == 'Apply merging':
         if merge_img1 != None and merge_img2 != None:
             merge = image_processor.Merging_images(merge_img1, merge_img2)
-            img = merge.merging_action(percentage_dominance=merge_percentage.get())
+            img = merge.merging_action(
+                percentage_dominance=merge_percentage.get())
             processed_image = img
             output_image_inserter(img)
         else:
-            msg.showerror('Error', 'First select both the images and then press the Apply merging button')
+            msg.showerror(
+                'Error', 'First select both the images and then press the Apply merging button')
+
     elif e.widget.cget('text') == 'Apply changes':
-        pass
+        print(var_width.get())
+        control_size.state(['disabled'])
+        image_height['state'] = 'disabled'
+        image_width['state'] = 'disabled'
+        size_apply['state'] = 'disabled'
+
 
 def rbg():
     global filename
 
     if filename != None:
-        
+
         if control_merging.instate(['disabled']) == False:
             control_merging.state(['disabled'])
             button_img1['state'] = 'disabled'
             button_img2['state'] = 'disabled'
             button_merg['state'] = 'disabled'
             dominance_scale['state'] = 'disabled'
-            
 
         if control_contrast.instate(['disabled']) == False:
             control_contrast.state(['disabled'])
             contrast_scale['state'] = 'disabled'
             button_contrast['state'] = 'disabled'
-        
+
         if control_size.instate(['disabled']) == False:
             control_size.state(['disabled'])
             image_height['state'] = 'disabled'
@@ -178,8 +202,8 @@ def rbg():
             size_apply['state'] = 'disabled'
 
         for i in lt_button:
-            i['state']='disabled'
-        
+            i['state'] = 'disabled'
+
         control_rbg.state(['!disabled'])
         first_color['state'] = 'normal'
         second_color['state'] = 'normal'
@@ -188,14 +212,15 @@ def rbg():
         color2_scale['state'] = 'normal'
         button_rbg['state'] = 'normal'
     else:
-        msg.showerror('Error','First select the image from the openfile option from the file submenu.')
+        msg.showerror(
+            'Error', 'First select the image from the openfile option from the file submenu.')
 
 
 def merging_effect():
     global filename
 
     if filename != None:
-        
+
         if control_rbg.instate(['disabled']) == False:
             control_rbg.state(['!disabled'])
             first_color['state'] = 'disabled'
@@ -209,7 +234,7 @@ def merging_effect():
             control_contrast.state(['disabled'])
             contrast_scale['state'] = 'disabled'
             button_contrast['state'] = 'disabled'
-        
+
         if control_size.instate(['disabled']) == False:
             control_size.state(['disabled'])
             image_height['state'] = 'disabled'
@@ -217,20 +242,21 @@ def merging_effect():
             size_apply['state'] = 'disabled'
 
         for i in lt_button:
-            i['state']='disabled'
-        
+            i['state'] = 'disabled'
+
         control_merging.state(['!disabled'])
         button_img1['state'] = 'normal'
         button_img2['state'] = 'normal'
         button_merg['state'] = 'normal'
         dominance_scale['state'] = 'normal'
     else:
-        msg.showerror('Error','First select the image from the openfile option from the file submenu.')
+        msg.showerror(
+            'Error', 'First select the image from the openfile option from the file submenu.')
 
 
 def size_change():
     if filename != None:
-        
+
         if control_rbg.instate(['disabled']) == False:
             control_rbg.state(['!disabled'])
             first_color['state'] = 'disabled'
@@ -244,24 +270,25 @@ def size_change():
             control_contrast.state(['disabled'])
             contrast_scale['state'] = 'disabled'
             button_contrast['state'] = 'disabled'
-        
+
         if control_merging.instate(['disabled']) == False:
             control_merging.state(['disabled'])
             button_img1['state'] = 'disabled'
             button_img2['state'] = 'disabled'
             button_merg['state'] = 'disabled'
             dominance_scale['state'] = 'disabled'
-            
-        
+
         for i in lt_button:
-            i['state']='disabled'
-        
+            i['state'] = 'disabled'
+
         control_size.state(['!disabled'])
         image_height['state'] = 'normal'
         image_width['state'] = 'normal'
-        size_apply['state'] = 'normal'       
+        size_apply['state'] = 'normal'
     else:
-        msg.showerror('Error','First select the image from the openfile option from the file submenu.')
+        msg.showerror(
+            'Error', 'First select the image from the openfile option from the file submenu.')
+
 
 def merge_event(e):
     global merge_img1, merge_img2
@@ -269,8 +296,6 @@ def merge_event(e):
         merge_img1 = filedialog.askopenfilename()
     elif e.widget.cget('text') == 'Select second image':
         merge_img2 = filedialog.askopenfilename()
-
-        
 
 
 def submit_adv_color():
@@ -311,7 +336,7 @@ green_button = None
 lt_button = [gray_button, red_button,
              blue_button, green_button]
 lt_txt = ['Gray shade', 'Red shade',
-          'Blue shade', 'Green shade',]
+          'Blue shade', 'Green shade', ]
 for i in range(len(lt_button)):
     lt_button[i] = ttk.Button(control_frame, text=lt_txt[i])
     lt_button[i].grid(row=0, column=i)
@@ -320,7 +345,7 @@ for i in range(len(lt_button)):
 
 # placing a temp label where the image would be placed
 slot_image = Label(root, borderwidth=3,
-      relief='sunken', width=65, height=37)
+                   relief='sunken', width=65, height=37)
 slot_image.grid(row=1, column=0, rowspan=4)
 
 
@@ -346,7 +371,7 @@ control_size.state(['disabled'])
 
 # placing a scale and button in the contrast frame
 contrast_scale = Scale(control_contrast, from_=0, to=100, tickinterval=10,
-                       orient=HORIZONTAL, length=500, variable = contrast_rate)
+                       orient=HORIZONTAL, length=500, variable=contrast_rate)
 contrast_scale.pack(fill=X, side=TOP)
 contrast_scale['state'] = 'disabled'
 
@@ -369,8 +394,9 @@ button_merg = ttk.Button(control_merging, text='Apply merging')
 button_merg.grid(row=0, column=2, padx=50, pady=12)
 button_merg.bind('<Button-1>', button_pressed)
 
-dominance_scale = Scale(control_merging, variable = merge_percentage,label = 'Select the dominance wrt first image', orient=HORIZONTAL, length=500, from_=0, to=100, tickinterval = 10)
-dominance_scale.grid(row=1, column=0, columnspan = 3)
+dominance_scale = Scale(control_merging, variable=merge_percentage, label='Select the dominance wrt first image',
+                        orient=HORIZONTAL, length=500, from_=0, to=100, tickinterval=10)
+dominance_scale.grid(row=1, column=0, columnspan=3)
 
 
 button_img1['state'] = 'disabled'
@@ -416,8 +442,6 @@ button_rbg['state'] = 'disabled'
 
 
 # placing two entry widgets in the sizing frame
-var_width = IntVar()
-var_height = IntVar()
 
 image_width = ttk.Entry(control_size, textvariable=var_width)
 image_width.grid(row=0, column=0, padx=10, pady=10)

@@ -49,34 +49,7 @@ class image_convertor:
         self.color_processed = True
         return self.result
     
-    # def color_to_black(self):
-    #     img = cv.imread(self.filename)
-    #     img = cv.resize(img, (457, 569))
-
-    #     edges = cv.Canny(img, 100,200)
-
-    #     self.result = edges
-    #     self.color_processed = True
-    #     return self.result
     
-    # def contrast(self, percentage_of_contrast, image=None):
-        
-    #     if image == None:
-    #         img = cv.imread(self.filename)
-    #     else:
-    #         img = image
-    #         img = cv.cvtColor(img, cv.COLOR_RGB2BGR)
-
-    #     lab = cv.cvtColor(img, cv.COLOR_BGR2Lab)
-    #     l, a, b = cv.split(lab)
-    #     clahe = cv.createCLAHE(clipLimit=(percentage_of_contrast/100), tileGridSize=(8,8))
-    #     cl = clahe.apply(l)
-    #     limg = cv.merge((cl,a,b))
-    #     final = cv.cvtColor(limg, cv.COLOR_LAB2BGR)
-    #     final = cv.resize(final,(457, 569))
-    #     final = cv.cvtColor(final, cv.COLOR_BGR2RGB)
-    #     self.result = final
-    #     return self.result
 
     def show(self):
         cv.imshow('frame', self.result)
@@ -140,12 +113,16 @@ class changing_brightness:
         return final
 
 class save_file:
-    def __init__(self,image, location):
+    def __init__(self,image, location, width, height):
         self.image = image
         self.location = location
+        self.width = width
+        self.height = height
 
     def save_image(self):
-        cv.imwrite(f"{self.location}", self.image)
+        img = cv.resize(self.image, (self.width, self.height))
+        img = cv.cvtColor(img, cv.COLOR_RGB2BGR)
+        cv.imwrite(f"{self.location}", img)
 
 class Merging_images:
     def __init__(self, first_image, second_image):
