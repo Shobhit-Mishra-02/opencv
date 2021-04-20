@@ -5,9 +5,14 @@ from tkinter import messagebox as msg
 from PIL import Image, ImageTk
 from image_process import image_processor
 import numpy as np
+import os
+import numpy as np
 
 root = Tk()
-root.geometry("978x650+0+0")
+root.geometry("973x660+0+0")
+root.maxsize(973,660)
+root.minsize(973,660)
+root.title('Photo color enhancer')
 
 menubar = Menu(root)
 root.config(menu=menubar)
@@ -32,6 +37,8 @@ combo_color2 = StringVar()
 color_rate1 = IntVar()
 color_rate2 = IntVar()
 
+status_var = StringVar()
+status_var.set('Select the file option, open a image and go ahead .....')
 # function of the submenues
 
 
@@ -58,7 +65,7 @@ def openfile():
     filename = filedialog.askopenfilename()
 
     img = Image.open(filename)
-    img = img.resize((457, 569), Image.ANTIALIAS)
+    img = img.resize((457, 587), Image.ANTIALIAS)
 
     photo = ImageTk.PhotoImage(img)
 
@@ -67,17 +74,20 @@ def openfile():
     slot_image['image'] = photo
     slot_image.image = photo
     slot_image.grid(row=1, column=0, rowspan=4)
-
+    status_var.set(f"Image name: {os.path.basename(filename)}")
     for i in lt_button:
         i['state'] = 'normal'
 
 
 def savefile():
-    location = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[(
-        "jpg Image", "*.jpg"), ("png Image", "*.png"), ("jpeg Image", "*.jpeg")])
-    file_saver = image_processor.save_file(
-        image=processed_image, location=location, width=var_width.get(), height=var_height.get())
-    file_saver.save_image()
+    if type(processed_image) == np.ndarray:
+        location = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[(
+            "jpg Image", "*.jpg"), ("png Image", "*.png"), ("jpeg Image", "*.jpeg")])
+        file_saver = image_processor.save_file(
+            image=processed_image, location=location, width=var_width.get(), height=var_height.get())
+        file_saver.save_image()
+    else:
+        msg.showerror('Error','First select the image from the open file option.')
 
 
 def Exit():
@@ -169,13 +179,13 @@ def button_pressed(e):
         output_image_inserter(img)
 
     elif e.widget.cget('text') == 'Apply merging':
-        if merge_img1 != None and merge_img2 != None:
+        if merge_img1 != None and merge_img2 != None and merge_percentage.get() != 0:
             merge = image_processor.Merging_images(merge_img1, merge_img2)
             img = merge.merging_action(percentage_dominance=merge_percentage.get())
             processed_image = img
             output_image_inserter(img)
         else:
-            msg.showerror('Error', 'First select both the images and then press the Apply merging button')
+            msg.showerror('Error', 'First select both the images , then select the percentage dominance and then press the Apply merging button')
 
     elif e.widget.cget('text') == 'Apply changes':
         print(var_width.get())
@@ -215,9 +225,6 @@ def rbg():
         first_color['state'] = 'normal'
         second_color['state'] = 'normal'
         button_color['state'] = 'normal'
-        # color1_scale['state'] = 'normal'
-        # color2_scale['state'] = 'normal'
-        # button_rbg['state'] = 'normal'
     else:
         msg.showerror(
             'Error', 'First select the image from the openfile option from the file submenu.')
@@ -315,6 +322,9 @@ def submit_adv_color():
     else:
         msg.showerror("Error",'You have to select two different colors.')
 
+def simple_shade():
+    for i in lt_button:
+        i['state'] = 'normal'
 
 def about():
     msg.showinfo('About application', 'This is an application which will allow you to do editing in the image color, size and also there is a unique feature of merging two images.')
@@ -326,8 +336,8 @@ menu_command = [openfile, savefile, Exit]
 nameofsubmenu = "File"
 func_for_submenu(menubar, menu_lb, menu_command, nameofsubmenu)
 
-menu_lb = ['Edit Contrast', 'Edit RBG', 'Meging effect', 'Change size']
-menu_command = [contrast, rbg, merging_effect, size_change]
+menu_lb = ['Edit Contrast', 'Edit RBG', 'Meging effect', 'Change size', 'Simple shades']
+menu_command = [contrast, rbg, merging_effect, size_change, simple_shade]
 nameofsubmenu = "customization"
 func_for_submenu(menubar, menu_lb, menu_command, nameofsubmenu)
 
@@ -359,7 +369,7 @@ for i in range(len(lt_button)):
 
 # placing a temp label where the image would be placed
 slot_image = Label(root, borderwidth=3,
-                   relief='sunken', width=65, height=37)
+                   relief='sunken', width=65, height=39, bg = 'gray70')
 slot_image.grid(row=1, column=0, rowspan=4)
 
 
@@ -390,7 +400,7 @@ contrast_scale.pack(fill=X, side=TOP)
 contrast_scale['state'] = 'disabled'
 
 button_contrast = ttk.Button(control_contrast, text='Apply contrast')
-button_contrast.pack(pady=10)
+button_contrast.pack(pady=8)
 button_contrast.bind('<Button-1>', button_pressed)
 button_contrast['state'] = 'disabled'
 
@@ -420,31 +430,28 @@ dominance_scale['state'] = 'disabled'
 
 
 # placing two combobox and two scales in the rbg frame and buttons also
-first_color = ttk.Combobox(control_rbg, values=['red', 'blue', 'green'], textvariable = combo_color1)
-first_color.grid(row=0, column=0, padx=10, pady=10)
+first_color = ttk.Combobox(control_rbg, values=['Red', 'Blue', 'Green'], textvariable = combo_color1)
+first_color.grid(row=0, column=0, padx=10, pady=8)
 
-second_color = ttk.Combobox(control_rbg, values=['red', 'blue', 'green'], textvariable = combo_color2)
-second_color.grid(row=0, column=1, pady=10)
+second_color = ttk.Combobox(control_rbg, values=['Red', 'Blue', 'Green'], textvariable = combo_color2)
+second_color.grid(row=0, column=1, pady=8)
 
 button_color = ttk.Button(control_rbg, text='Submit', command=submit_adv_color)
-button_color.grid(row=0, column=2, padx=40, pady=10)
+button_color.grid(row=0, column=2, padx=40, pady=8)
 
-# Label(control_rbg, text='First color:', state='disabled').grid(
-#     row=1, column=0, sticky=['w'])
 
 color1_scale = Scale(control_rbg, from_=0, to=255, tickinterval=50,label = 'First color:',
                      orient=HORIZONTAL, length=500,variable = color_rate1)
 color1_scale.grid(row=2, column=0, columnspan=3)
 
-# Label(control_rbg, text='Second color:', state='disabled').grid(
-#     row=3, column=0, sticky=['w'])
+
 
 color2_scale = Scale(control_rbg, from_=0, to=255, tickinterval=50,label ='Second color:',
                      orient=HORIZONTAL, length=500 ,variable = color_rate2)
-color2_scale.grid(row=4, column=0, columnspan=3)
+color2_scale.grid(row=3, column=0, columnspan=3)
 
 button_rbg = ttk.Button(control_rbg, text='Apply color')
-button_rbg.grid(row=5, column=0, columnspan=3, pady=10)
+button_rbg.grid(row=5, column=0, columnspan=3, pady=8)
 button_rbg.bind('<Button-1>', button_pressed)
 
 first_color['state'] = 'disabled'
@@ -457,22 +464,23 @@ button_rbg['state'] = 'disabled'
 
 # placing two entry widgets in the sizing frame
 
+Label(control_size, text = 'Width').grid(row=0, column=0)
 image_width = ttk.Entry(control_size, textvariable=var_width)
-image_width.grid(row=0, column=0, padx=10, pady=10)
+image_width.grid(row=0, column=1, pady=8)
 
+Label(control_size, text = 'Height').grid(row=0, column=2)
 image_height = ttk.Entry(control_size, textvariable=var_height)
-image_height.grid(row=0, column=1, pady=10)
+image_height.grid(row=0, column=3, pady=8)
 
 size_apply = ttk.Button(control_size, text='Apply changes')
-size_apply.grid(row=0, column=2, padx=20, pady=10)
+size_apply.grid(row=0, column=4, padx=25, pady=8)
 size_apply.bind('<Button-1>', button_pressed)
 
 image_height['state'] = 'disabled'
 image_width['state'] = 'disabled'
 size_apply['state'] = 'disabled'
 
-status_bar = Label(root, text='testing the statusbar',
-                   anchor='w', borderwidth=3, relief='sunken')
+status_bar = Label(root,anchor='w', borderwidth=3, relief='raised', textvariable = status_var, font='helvertica 10 bold')
 status_bar.grid(row=6, column=0, columnspan=2, sticky=['n', 'e', 'w', 's'])
 
 root.mainloop()
