@@ -120,7 +120,7 @@ class save_file:
         self.height = height
 
     def save_image(self):
-        img = cv.resize(self.image, (500, 500))
+        img = cv.resize(self.image, (self.width, self.height))
         img = cv.cvtColor(img, cv.COLOR_RGB2BGR)
         cv.imwrite(f"{self.location}", img)
 

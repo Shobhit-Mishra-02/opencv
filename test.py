@@ -1,10 +1,16 @@
 import numpy as np
+from tkinter import *
+from tkinter import filedialog
 
-lt = [1,2,2]
-arr = np.array([1, 2, 3, 4, 5])
-a = None
-# print(type(lt))
-# print(type(arr))
-print(type(a))
-if type(arr) == np.ndarray:
-    print('yes')
+root =Tk()
+root.geometry('500x500')
+
+def pro():
+    location = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[(
+        "jpg Image", "*.jpg"), ("png Image", "*.png"), ("jpeg Image", "*.jpeg")])
+    print(location)
+
+Button(root, text = 'press me', command = pro).pack()
+
+
+root.mainloop()

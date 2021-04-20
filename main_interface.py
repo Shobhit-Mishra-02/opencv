@@ -23,6 +23,9 @@ merge_percentage = IntVar()
 var_width = IntVar()
 var_height = IntVar()
 
+var_height.set(500)
+var_width.set(500)
+
 # function of the submenues
 
 
@@ -64,7 +67,7 @@ def openfile():
 
 
 def savefile():
-    location = filedialog.asksaveasfile(defaultextension=".jpg", filetypes=[(
+    location = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[(
         "jpg Image", "*.jpg"), ("png Image", "*.png"), ("jpeg Image", "*.jpeg")])
     file_saver = image_processor.save_file(
         image=processed_image, location=location, width=var_width.get(), height=var_height.get())
