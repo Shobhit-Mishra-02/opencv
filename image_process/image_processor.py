@@ -1,7 +1,7 @@
 '''
 Author: Shobhit Mishra
 
-So here I have created the sole of the GUI, in the main interface I was dealing with 
+So here I have created the soul of the GUI, in the main interface I was dealing with 
 apperance and user experiance. But in this file I have added the functions which will perform
 the required operations on the image and return the processed image as the output. 
 '''
