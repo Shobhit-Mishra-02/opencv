@@ -35,7 +35,36 @@ If you haved not install the opencv library then just type this command in the t
     <li>Then click on the Apply contrast button, you will get the result.</li>
   </ul>
   <li><h2>Merging images</h2></li>
+  <ul>
+    <li>First, select the customization submenue option.</li>
+    <li>Then you will get the option of Merging effect, just click on that.</li>
+    <li>Then you will see that the Merging images panel has beed enabled.</li>
+    <li>Select the first image by clicking on the Select first image button and then select the second image by clicking on the Select second image button.</li>
+    <li>Select the dominance percentage wrt the first image.</li>
+    <li>Then click on the Apply merging button to get the results.</li>
+  </ul>
   <li><h2>Changing rgb colors</h2></li>
+  <ul>
+    <li>First, select the customization submenue option.</li>
+    <li>Then you will get the option of Edit RBG, just click on that option.</li>
+    <li>Then you will see that the Advanced color control panel has beed enabled.</li>
+    <li>Then select the two colors from the given combo boxes and remember that the two color should be different.</li>
+    <li>Then select the corresponding color value from the scale and then press the Apply color button.</li>
+    <li>Then you will get the result.</li>
+  </ul>
   <li><h2>Changing the size of the image</h2></li>
+  <ul>
+    <li>First, select the customization submenue option.</li>
+    <li>There you will get the option of Change size, just click on that option.</li>
+    <li>Then you will see that the Sizing control panel has been enabled.</li>
+    <li>There you will get the option to select the width and height of the image.</li>
+    <li>Then click on the Apply changes button</li>
+    <li>Now when you will save the processed image then you will see that desired size which you have selected.</li>
+  </ul>
   <li><h2>Saving the image</h2></li>
+  <ul>
+    <li>First, select the File submenue.</li>
+    <li>There you will get the option of Save as option, just click on that.</li>
+    <li>Then just write the name of the processed image and save it.</li>
+  </ul>
 </ol>
