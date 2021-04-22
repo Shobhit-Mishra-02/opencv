@@ -5,9 +5,9 @@ For the development I have used opencv and tkinter library.
 
 <h1>PREREQUISITES.</h1>
 <li>Opencv</li>
-<li>tkinter</li>
-<li>numpy</li>
-<li>python</li>
+<li>Tkinter</li>
+<li>Numpy</li>
+<li>Python</li>
 
 If you haved not install the opencv library then just type this command in the terminal, just to install the whole opencv library:<br>
 <em>pip install opencv-python</em><br>
