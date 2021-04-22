@@ -13,3 +13,9 @@ If you haved not install the opencv library then just type this command in the t
 <em>pip install opencv-python</em><br>
 
 <h1>HOW TO USE THIS GUI</h1>
+<ol>
+  <li><h2>Selection the image</h2></li>
+  <li><h2>Using color control frame</h2></li>
+  <li><h2>Changing the contrast</h2></li>
+  <li><h2>Merging images</h2></li>
+</ol>
