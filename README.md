@@ -4,13 +4,12 @@ to change contrast of the image and also we can merge two selected images.
 For the development I have used opencv and tkinter library.
 
 <h1>PREREQUISITES.</h1>
-<l1>Opencv</l1>
-<l1>tkinter</l1>
-<l1>numpy</l1>
-<l1>python</l1>
+<li>Opencv</li>
+<li>tkinter</li>
+<li>numpy</li>
+<li>python</li>
 
-If you haved install the opencv library then just type this command in the terminal just to install the whole opencv library:<br>
+If you haved not install the opencv library then just type this command in the terminal, just to install the whole opencv library:<br>
+<em>pip install opencv-python</em><br>
 
-
-
-
+<h1>HOW TO USE THIS GUI</h1>
