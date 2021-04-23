@@ -59,8 +59,8 @@ class main_interace:
         # configure the size of the interface and given the title.
         self.status_var.set('Select the file option, open a image and go ahead .....')
         self.root.geometry(f"{self.width}x{self.height}+0+0")
-        self.root.maxsize(self.width, self.height)
-        self.root.minsize(self.width, self.height)
+        # self.root.maxsize(self.width, self.height)
+        # self.root.minsize(self.width, self.height)
         self.root.title('Photo color enhancer')
 
         
@@ -82,6 +82,7 @@ class main_interace:
             else:
                 msg.showerror("Error",'You have to select two different colors.')
         
+        # This function will analyse the text and take the action according to that text which has been written on the button.
         def button_pressed(e):
             pro = image_processor.image_convertor(self.filename)
 
@@ -138,12 +139,11 @@ class main_interace:
                     msg.showerror('Error', 'First select both the images , then select the percentage dominance and then press the Apply merging button')
 
             elif e.widget.cget('text') == 'Apply changes':
-                print(var_width.get())
                 control_size.state(['disabled'])
                 image_height['state'] = 'disabled'
                 image_width['state'] = 'disabled'
                 size_apply['state'] = 'disabled'
-                
+        # This function will open the popups for the file selection in the merging frame.   
         def merge_event(e):
             if e.widget.cget('text') == 'Select first image':
                 self.merge_img1 = filedialog.askopenfilename()
@@ -159,7 +159,7 @@ class main_interace:
             self.filename = filedialog.askopenfilename()
 
             img = Image.open(self.filename)
-            img = img.resize((457, 587), Image.ANTIALIAS)
+            img = img.resize((604, 587), Image.ANTIALIAS)
 
             photo = ImageTk.PhotoImage(img)
 
@@ -424,7 +424,7 @@ class main_interace:
     
         # Placing the position of the slot image where we will placed the processed image.
         self.slot_image = Label(self.root, borderwidth=3,
-                        relief='sunken', width=65, height=39, bg = 'gray70')
+                        relief='sunken', width=86, height=39, bg = 'gray70')
         self.slot_image.grid(row=1, column=0, rowspan=4)
 
 
@@ -542,7 +542,7 @@ class main_interace:
 #############################################################################################################
 # Now here I have used the above written class 
 if __name__ == "__main__":
-    win = main_interace(973, 660)
+    win = main_interace(1119, 660)
     win.start_creation()
     win.end_statement()
 #############################################################################################################
