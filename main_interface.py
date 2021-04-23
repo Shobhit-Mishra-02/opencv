@@ -82,6 +82,7 @@ class main_interace:
             else:
                 msg.showerror("Error",'You have to select two different colors.')
         
+        # This function will analyse the text and take the action according to that text which has been written on the button.
         def button_pressed(e):
             pro = image_processor.image_convertor(self.filename)
 
@@ -143,7 +144,7 @@ class main_interace:
                 image_height['state'] = 'disabled'
                 image_width['state'] = 'disabled'
                 size_apply['state'] = 'disabled'
-                
+        # This function will open the popups for the file selection in the merging frame.   
         def merge_event(e):
             if e.widget.cget('text') == 'Select first image':
                 self.merge_img1 = filedialog.askopenfilename()
