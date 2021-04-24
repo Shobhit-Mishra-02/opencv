@@ -24,7 +24,7 @@ class image_convertor:
     # This method will convert the selected image into the gray shaded image.
     def color_to_gray(self):
         img = cv.imread(self.filename)
-        img = cv.resize(img, (604, 587))
+        img = cv.resize(img, (604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 
@@ -35,7 +35,7 @@ class image_convertor:
     # This method will convert the selected image into the red shaded image.
     def color_to_red(self):
         img = cv.imread(self.filename)
-        img = cv.resize(img, (604, 587))
+        img = cv.resize(img, (604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
         img[:,:,2] = 115
         img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 
@@ -46,7 +46,7 @@ class image_convertor:
     # This method will convert the image into the blue shaded image.
     def color_to_blue(self):
         img = cv.imread(self.filename)
-        img = cv.resize(img, (604, 587))
+        img = cv.resize(img, (604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
 
         img[:,:,0] = 115
         img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
@@ -58,7 +58,7 @@ class image_convertor:
     # This method will convert the image into the green shaded image.
     def color_to_green(self):
         img = cv.imread(self.filename)
-        img = cv.resize(img, (604, 587))
+        img = cv.resize(img, (604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
 
         img[:,:,1] = 115
         img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
@@ -93,7 +93,7 @@ class change_contrast:
         cl = clahe.apply(l)
         limg = cv.merge((cl,a,b))
         final = cv.cvtColor(limg, cv.COLOR_LAB2BGR)
-        final = cv.resize(final,(604, 587))
+        final = cv.resize(final,(604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
         final = cv.cvtColor(final, cv.COLOR_BGR2RGB)
         self.result = final
         return self.result
@@ -108,7 +108,7 @@ class change_contrast:
         cl = clahe.apply(l)
         limg = cv.merge((cl,a,b))
         final = cv.cvtColor(limg, cv.COLOR_LAB2BGR)
-        final = cv.resize(final,(604, 587))
+        final = cv.resize(final,(604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
         final = cv.cvtColor(final, cv.COLOR_BGR2RGB)
         self.result = final
         return self.result
@@ -129,7 +129,7 @@ class save_file:
 
     # This method will save the image.
     def save_image(self):
-        img = cv.resize(self.image, (self.width, self.height))
+        img = cv.resize(self.image, (self.width, self.height), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
         img = cv.cvtColor(img, cv.COLOR_RGB2BGR)
         cv.imwrite(f"{self.location}", img)
 
@@ -147,10 +147,10 @@ class Merging_images:
     # This method will merge the two images and also demands for the percentage of the dominance.
     def merging_action(self, percentage_dominance):
         img1 = cv.imread(self.first_image)
-        img1 = cv.resize(img1,(604, 587))
+        img1 = cv.resize(img1,(604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
 
         img2 = cv.imread(self.second_image)
-        img2 = cv.resize(img2,(604, 587))
+        img2 = cv.resize(img2,(604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
 
         output = cv.addWeighted(img1,percentage_dominance/100, img2, (100-percentage_dominance)/100, 0)
         output = cv.cvtColor(output, cv.COLOR_BGR2RGB)
@@ -174,7 +174,7 @@ class adv_coloring:
         self.result = None
         
         self.img = cv.imread(self.filename)
-        self.img = cv.resize(self.img, (604, 587))
+        self.img = cv.resize(self.img, (604, 587), fx=1/500, fy=1/500, interpolation=cv.INTER_AREA)
 
     # This method will produce the processed image.
     def color_action(self):

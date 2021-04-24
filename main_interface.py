@@ -250,8 +250,8 @@ class main_interace:
                     i['state'] = 'disabled'
 
                 control_rbg.state(['!disabled'])
-                first_color['state'] = 'normal'
-                second_color['state'] = 'normal'
+                first_color['state'] = 'readonly'
+                second_color['state'] = 'readonly'
                 button_color['state'] = 'normal'
             else:
                 msg.showerror(
